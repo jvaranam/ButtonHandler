@@ -1,0 +1,42 @@
+var ButtonHandler = function(buttonId) {
+    var currentButton = $("#" + buttonId);
+    var toggleButtonId = "";
+    var defaultToggele = "";
+    var toggleOffPos = 0;
+    var toggleOnPos = 0;
+
+    currentButton.bind('touchstart click', function(){
+      if(toggleButtonId!=""){
+        defaultToggele = !defaultToggele;
+        updateToggle();
+      }
+      currentButton.trigger("selected");
+    });
+
+    function updateToggle(){
+      $("#"+toggleButtonId).css("left", (defaultToggele)?toggleOnPos+"px":toggleOffPos+"px");
+    }
+    return {
+        setDisplay: function(flag) {
+            currentButton.css("display", (flag) ? "block" : "none");
+        },
+        getDisplay: function() {
+            //return (response == "flag")?((currentButton.css("display") == "block")?true:false):currentButton.css("display");
+            return (currentButton.css("display") == "block")?true:false;
+        },
+        setPosition: function(position, value) {
+            currentButton.css(position, value);
+        },
+        setToggle:function(obj){
+          toggleButtonId = obj.toggleButtonId;
+          defaultToggele = (obj.defaultToggele=="OFF")?false:true;
+          toggleOnPos = obj.onPos;
+          toggleOffPos = obj.offPos;
+          updateToggle();
+        },
+        getToggleVal:function(){
+          return defaultToggele;
+        },
+        cEvent:currentButton
+    }
+}
